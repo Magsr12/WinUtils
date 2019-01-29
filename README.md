@@ -11,7 +11,9 @@ Installed.
   --install-apps   Download and install the required applications.
   --check-apps     Only checks if the necessary files
 installed.
-  --list-apps      List configured apps.```
+  --list-apps      List configured apps.
+  
+  ```
   
   
   

@@ -39,7 +39,6 @@ class Utils:
         		, 'officehub', 'skypeapp', 'zunemusic', 'windowsmaps', 'solitairecollection', 'bingfinance', 'zunevideo']
 
 		self.services = ['SysMain', 'TrustedInstaller', 'wuauserv', 'msiserver']
-		self.basic_info = 
 
 	def services_(self):		
         	print "[*] Desativando servico SysMain para otimizacao de disc_usage..."

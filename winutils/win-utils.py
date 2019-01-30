@@ -1,11 +1,35 @@
-import os
-import ctypes
-import requests
-import platform
-import sys
-import time
-import argparse
+#coding: utf-8
+
+"""
+WHAT IT DO:
+
+[DISABLE SERVICES]
+
+EXTERNAL COMMAND: sc config {service} start= {mode}
+
+#disable sysmain to start= disabled (superfetch)
+#disable msiserver to start= manual ( Windows Installer )
+#disable TrustedInstaller to start= manual ( Instalador de drivers )
+#disable wuauserv to start= manual ( Windows update )
+
+[TURN OFF WINDOWS DEFENDER]
+
+(AUTO)
+Turn_Off_Windows_Defender_Antivirus.reg
+
+(MANUAL)
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender]
+
+"DisableAntiSpyware"=dword:00000001
+
+[ADCIONAL]
+      
+If the schedule process is 100% consider to disable task scheduler. ( Agendador de tarefas )
+"""
+
+import os, ctypes, requests, sys, time, argparse
 from clint.textui import progress
+
 
 class Utils:
 	def __init__(self):
@@ -15,10 +39,11 @@ class Utils:
         		, 'officehub', 'skypeapp', 'zunemusic', 'windowsmaps', 'solitairecollection', 'bingfinance', 'zunevideo']
 
 		self.services = ['SysMain', 'TrustedInstaller', 'wuauserv', 'msiserver']
+		self.basic_info = 
 
 	def services_(self):		
         	print "[*] Desativando servico SysMain para otimizacao de disc_usage..."
-        	sysmain_cmd = os.system('sc config sysmain start= disabled > NUL') 
+        	sysmain_cmd = os.system('sc config sysmain start= disabled > NUL')
         	if sysmain_cmd != 0:
                 	print "[*] Nao foi possivel desativar o servico SysMain (superfetch)"
         	else:
@@ -45,6 +70,12 @@ class Utils:
         	
 
 	def apps(self):
+		print '[*] Aguarde enquanto verificamos os aplicativos instalados...'
+		time.sleep(1)
+		for i in self.app_list:
+			print '[*] Encontrado: {}'.format(i)
+			time.sleep(0.3)
+		print '[*] Carregando Powershell...'
 		for app in self.app_list:
 			try:
 				apps_command = os.system('powershell "Get-AppxPackage *{}* | Remove-AppxPackage"'.format(app))
@@ -146,29 +177,32 @@ class MainApp:
 w_utils = Utils()
 w_packages = MainApp()
 
-
 def main():
-        parser = argparse.ArgumentParser()
+	parser = argparse.ArgumentParser()
 	parser.add_argument('--disc-usage', help='Verifica e corrige os possiveis erros que causam 100 uso do disco.', action='store_true', dest='disc', default=False)
-        parser.add_argument('--download-apps', help='Somente baixa os aplicativos, forca o download se ja estiverem instalados.', action='store_true', dest='download_apps', default=False)
+	parser.add_argument('--clean-apps', help='Limpa os aplicativos que causam lentidao no Windows 10', action='store_true', dest='clean_apps', default=False)
+	parser.add_argument('--download-apps', help='Somente baixa os aplicativos, forca o download se ja estiverem instalados.', action='store_true', dest='download_apps', default=False)
 	parser.add_argument('--install-apps', help='Baixa e instala os aplicativos necessarios.', action='store_true', dest='install_apps', default=False)
 	parser.add_argument('--check-apps', help='Somente verifica se os aplicativos necessarios estao instalados.', action='store_true', dest='check_apps', default=False)
 	parser.add_argument('--list-apps', help='Lista os aplicativos configurados.', action='store_true', dest='list_apps', default=False)
 	if len(sys.argv) < 2:
 		exit(parser.print_help())
-        args = parser.parse_args()
+	args=parser.parse_args()
 	just_download = args.download_apps
 	download_and_install = args.install_apps
 	check_apps = args.check_apps
 	list_apps = args.list_apps
 	disc_usage = args.disc
+	clean_apps_ = args.clean_apps
 	if disc_usage:
 		is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0 # Check if the user is Admin
 		if is_admin is False:
-			exit('\n[*] Voce precisa iniciar esta opcao como Administrador!')	
+			exit('\n[*] Voce precisa iniciar esta opcao como Administrador!')
 		w_utils.services_()
 		w_utils.windows_defender()
 		w_utils.disc_usage()
+	if clean_apps_:
+		w_utils.apps()
 	if list_apps is True:
 		for i in w_packages.app_list:
 			print i
@@ -179,6 +213,7 @@ def main():
 		w_packages.install_packages()
 	if download_and_install is True:
 		w_packages.check_packages()
-		w_packages.install_packages(post_execute=True)		
+		w_packages.install_packages(post_execute=True)
 
 main()
+	

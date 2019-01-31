@@ -7,10 +7,12 @@ WHAT IT DO:
 
 EXTERNAL COMMAND: sc config {service} start= {mode}
 
+#demand = manual
+
 #disable sysmain to start= disabled (superfetch)
-#disable msiserver to start= manual ( Windows Installer )
-#disable TrustedInstaller to start= manual ( Instalador de drivers )
-#disable wuauserv to start= manual ( Windows update )
+#disable msiserver to start= demand ( Windows Installer )
+#disable TrustedInstaller to start= demand ( Instalador de drivers )
+#disable wuauserv to start= demand ( Windows update )
 
 [TURN OFF WINDOWS DEFENDER]
 
@@ -22,7 +24,7 @@ Turn_Off_Windows_Defender_Antivirus.reg
 
 "DisableAntiSpyware"=dword:00000001
 
-[ADCIONAL]
+[MORE]
       
 If the schedule process is 100% consider to disable task scheduler. ( Agendador de tarefas )
 """
@@ -33,7 +35,6 @@ from clint.textui import progress
 
 class Utils:
 	def __init__(self):
-		#Windows 10 apps
 		self.app_list = ['3dbuilder', 'windowsalarms', 'windowscommunicationsapps', 'windowscamera'
         		, 'bingnews', 'nonenote', 'people', 'windowsphone', 'windowsstore', 'bingsports', 'soundrecorder'
         		, 'officehub', 'skypeapp', 'zunemusic', 'windowsmaps', 'solitairecollection', 'bingfinance', 'zunevideo']
@@ -49,19 +50,19 @@ class Utils:
                 	print "[*] Servico SysMain (superfetch) desabilitado "
 
         	print "[*] Desativando TrustedInstaller ( Instalador de Modulos )..."
-        	trus_cmd = os.system('sc config TrustedInstaller start= demand > NUL')
+        	trus_cmd = os.system('sc config TrustedInstaller start= demand > NUL') # Set TrustedInstaller to manual
         	if trus_cmd != 0:
                 	print "[*] Nao foi possivel desativar o servico TrustedInstaller (Instalador de modulos)"
         	else:
                 	print "[*] Servico TrustedInstaller (Instalador de modulos) desabilitado"
         	
-        	wua_serv = os.system('sc config wuauserv start= demand > NUL')
+        	wua_serv = os.system('sc config wuauserv start= demand > NUL') # Set wuauserv to manual
         	if wua_serv != 0:
                 	print "[*] Nao foi possivel desativar o servico wuauserv (Windows Update)"
         	else:
                 	print "[*] Servico wuauserv (Windows Update) desativado"
         	
-        	msi_serv = os.system('sc config msiserver start= demand > NUL')
+        	msi_serv = os.system('sc config msiserver start= demand > NUL') # Set msiserver to manual
         	if msi_serv != 0:
                 	print "[*] Nao foi possivel desativar o servico msiserver (Windows Installer)"
         	else:
@@ -121,10 +122,10 @@ class MainApp:
 		'Winrar': 'https://www.win-rar.com/fileadmin/winrar-versions/winrar/winrar-x64-561.exe',
 		'VLC': 'https://mirror.espoch.edu.ec/videolan/vlc/2.2.4/win32/vlc-2.2.4-win32.exe',
 		}
-		self.app_list = ['Driver Booster', 'Chrome', 'Winrar', 'VLC']
-		self.app_path = ['C:\Program Files (x86)\IObit\Driver Booster', 'C:\Program Files (x86)\Google\Chrome', 'C:\Program Files\WinRAR', 'C:\Program Files\VideoLAN\VLC']
-		self.app_range = len(self.app_path)	
-		self.missing = []
+		#self.app_list = ['Driver Booster', 'Chrome', 'Winrar', 'VLC']
+		#self.app_path = ['C:\Program Files (x86)\IObit\Driver Booster', 'C:\Program Files (x86)\Google\Chrome', 'C:\Program Files\WinRAR', 'C:\Program Files\VideoLAN\VLC']
+		#self.app_range = len(self.app_path)	
+		#self.missing = []
 		self.install_apps = []
 		#Headers
 		self.hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
@@ -133,16 +134,16 @@ class MainApp:
 		'Accept-Encoding': 'none',
 		'Accept-Language': 'en-US,en;q=0.8',
 		'Connection': 'keep-alive'}
-				
+
 	def download_pkg(self, name, link):
-        	file_name = name + '.exe'
-        	r = requests.get(link, stream=True, headers=self.hdr)
-        	with open(file_name, 'wb') as f:
-                	total_length = int(r.headers.get('content-length'))
-                	for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1): 
-                        	if chunk:
-                                	f.write(chunk)
-                                	f.flush()
+		file_name = name + '.exe'
+		r = requests.get(link, stream=True, headers=self.hdr)
+		with open(file_name, 'wb') as f:
+			total_length = int(r.headers.get('content-length'))
+			for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1):
+				if chunk:
+					f.write(chunk)
+					f.flush()
 
 	def check_packages(self, force=False):
 		if force is True:
@@ -173,46 +174,47 @@ class MainApp:
 					os.system('{}'.format(i))
 					ask_continue = raw_input('[*] Abrir o proximo instalador [ENTER]')
 
-w_utils = Utils()
-w_packages = MainApp()
-
 def main():
+	w_utils = Utils()
+	w_packages = MainApp()
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--disc-usage', help='Verifica e corrige os possiveis erros que causam 100 uso do disco.', action='store_true', dest='disc', default=False)
-	parser.add_argument('--clean-apps', help='Limpa os aplicativos que causam lentidao no Windows 10', action='store_true', dest='clean_apps', default=False)
+	parser.add_argument('--enable-dism', help='Habilita o DISM para procurar por possiveis erros no HD', action='store_true', dest='dism_', default=False)
+	parser.add_argument('--clean-apps', help='Limpa TODOS os aplicativos que vem por padrao no Windows 10, use --list-apps para listar os aplicativos.', action='store_true', dest='clean_apps', default=False)
+	parser.add_argument('--exclude', help='Limpa todos aplicativos menos o mencionado nesta opcao.', required=False, dest='exclude_app', default=False)
+	parser.add_argument('--list-apps', help='Lista os aplicativos a serem processados.', required=False, dest='list_apps', action='store_true')
+	'''
 	parser.add_argument('--download-apps', help='Somente baixa os aplicativos, forca o download se ja estiverem instalados.', action='store_true', dest='download_apps', default=False)
 	parser.add_argument('--install-apps', help='Baixa e instala os aplicativos necessarios.', action='store_true', dest='install_apps', default=False)
 	parser.add_argument('--check-apps', help='Somente verifica se os aplicativos necessarios estao instalados.', action='store_true', dest='check_apps', default=False)
 	parser.add_argument('--list-apps', help='Lista os aplicativos configurados.', action='store_true', dest='list_apps', default=False)
+	'''
 	if len(sys.argv) < 2:
 		exit(parser.print_help())
+
 	args=parser.parse_args()
-	just_download = args.download_apps
-	download_and_install = args.install_apps
-	check_apps = args.check_apps
-	list_apps = args.list_apps
 	disc_usage = args.disc
+	enable_dism = args.dism_
 	clean_apps_ = args.clean_apps
+	list_apps = args.list_apps
+	if list_apps:
+		for apps in w_utils.app_list:
+			print apps
+	if clean_apps_:
+		w_utils.apps()
 	if disc_usage:
 		is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0 # Check if the user is Admin
 		if is_admin is False:
-			exit('\n[*] Voce precisa iniciar esta opcao como Administrador!')
+			exit('\n[*] Nao foi possivel prosseguir com a correcao de disco, esta opcao requer privilegios.\n\nIS_ADMIN: {}'.format(is_admin))
 		w_utils.services_()
 		w_utils.windows_defender()
-		w_utils.disc_usage()
-	if clean_apps_:
-		w_utils.apps()
-	if list_apps is True:
-		for i in w_packages.app_list:
-			print i
-	if check_apps is True:
-		w_packages.check_packages()
-	if just_download is True:
-		w_packages.check_packages(force=True)
-		w_packages.install_packages()
-	if download_and_install is True:
-		w_packages.check_packages()
-		w_packages.install_packages(post_execute=True)
+		if enable_dism:
+			w_utils.disc_usage(dism_=True)
+		else:
+			w_utils.disc_usage(dism_=False)
+	if not disc_usage:
+		if enable_dism is True:
+			print '[*] Esta opcao deve ser atribuida junto com --disc-usage.'
 
 main()
 	

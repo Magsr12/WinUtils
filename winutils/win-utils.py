@@ -183,12 +183,6 @@ def main():
 	parser.add_argument('--clean-apps', help='Limpa TODOS os aplicativos que vem por padrao no Windows 10, use --list-apps para listar os aplicativos.', action='store_true', dest='clean_apps', default=False)
 	parser.add_argument('--exclude', help='Limpa todos aplicativos menos o mencionado nesta opcao.', required=False, dest='exclude_app', default=False)
 	parser.add_argument('--list-apps', help='Lista os aplicativos a serem processados.', required=False, dest='list_apps', action='store_true')
-	'''
-	parser.add_argument('--download-apps', help='Somente baixa os aplicativos, forca o download se ja estiverem instalados.', action='store_true', dest='download_apps', default=False)
-	parser.add_argument('--install-apps', help='Baixa e instala os aplicativos necessarios.', action='store_true', dest='install_apps', default=False)
-	parser.add_argument('--check-apps', help='Somente verifica se os aplicativos necessarios estao instalados.', action='store_true', dest='check_apps', default=False)
-	parser.add_argument('--list-apps', help='Lista os aplicativos configurados.', action='store_true', dest='list_apps', default=False)
-	'''
 	if len(sys.argv) < 2:
 		exit(parser.print_help())
 

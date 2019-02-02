@@ -29,7 +29,7 @@ Turn_Off_Windows_Defender_Antivirus.reg
 If the schedule process is 100% consider to disable task scheduler. ( Agendador de tarefas )
 """
 
-import os, ctypes, requests, sys, time, argparse
+import os, ctypes, requests, sys, time, argparse, shutil, tempfile
 from clint.textui import progress
 
 
@@ -113,8 +113,6 @@ class Utils:
 		print '\n[*] Caso haja algum servico em RUNNING, recomenda-se reiniciar o procedimento.'
 		print '[*] Finalizado.'
 
-
-
 class MainApp:
 	def __init__(self):
 		self.A = {'Driver Booster': 'http://update.iobit.com/dl/driver_booster_setup.exe',
@@ -181,10 +179,16 @@ def main():
 	parser.add_argument('--disc-usage', help='Verifica e corrige os possiveis erros que causam 100 uso do disco.', action='store_true', dest='disc', default=False)
 	parser.add_argument('--enable-dism', help='Habilita o DISM para procurar por possiveis erros no HD', action='store_true', dest='dism_', default=False)
 	parser.add_argument('--clean-apps', help='Limpa TODOS os aplicativos que vem por padrao no Windows 10, use --list-apps para listar os aplicativos.', action='store_true', dest='clean_apps', default=False)
-	parser.add_argument('--exclude', help='Limpa todos aplicativos menos o mencionado nesta opcao.', required=False, dest='exclude_app', default=False)
 	parser.add_argument('--list-apps', help='Lista os aplicativos a serem processados.', required=False, dest='list_apps', action='store_true')
+	'''
+	parser.add_argument('--download-apps', help='Somente baixa os aplicativos, forca o download se ja estiverem instalados.', action='store_true', dest='download_apps', default=False)
+	parser.add_argument('--install-apps', help='Baixa e instala os aplicativos necessarios.', action='store_true', dest='install_apps', default=False)
+	parser.add_argument('--check-apps', help='Somente verifica se os aplicativos necessarios estao instalados.', action='store_true', dest='check_apps', default=False)
+	parser.add_argument('--list-apps', help='Lista os aplicativos configurados.', action='store_true', dest='list_apps', default=False)
+	'''
 	if len(sys.argv) < 2:
-		exit(parser.print_help())
+		w_utils.clean_temp()
+		#exit(parser.print_help())
 
 	args=parser.parse_args()
 	disc_usage = args.disc
@@ -209,6 +213,7 @@ def main():
 	if not disc_usage:
 		if enable_dism is True:
 			print '[*] Esta opcao deve ser atribuida junto com --disc-usage.'
+
 
 main()
 	

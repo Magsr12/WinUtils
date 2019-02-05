@@ -29,8 +29,16 @@ Turn_Off_Windows_Defender_Antivirus.reg
 If the schedule process is 100% consider to disable task scheduler. ( Agendador de tarefas )
 """
 
-import os, ctypes, requests, sys, time, argparse, shutil, tempfile
+import os, ctypes, requests, sys, time, argparse, shutil, tempfile, colorama, platform
 from clint.textui import progress
+
+colorama.init()
+
+class bcolors:
+	BOLD = '\033[1m'
+	CYAN = '\033[36m'
+	NORMAL = '\033[37m'
+	YELLOW = '\033[33m'
 
 
 class Utils:
@@ -172,7 +180,32 @@ class MainApp:
 					os.system('{}'.format(i))
 					ask_continue = raw_input('[*] Abrir o proximo instalador [ENTER]')
 
+def info():
+	admin_is = ctypes.windll.shell32.IsUserAnAdmin()
+	if admin_is == False:
+		admin_is = 'NO'
+	else:
+		admin_is = 'YES'
+
+	if platform.machine() == 'AMD64':
+		platform_machine_bits = '64 Bits'
+	else:
+		platform_machine_bits = '32 Bits'
+	print bcolors.BOLD + bcolors.YELLOW + platform.system() + ' ' + platform.version() + ' ' + platform_machine_bits
+	print 'Admin privileges: ' + admin_is + bcolors.BOLD + bcolors.CYAN
+	print ''' 
+888       888 d8b                   888    d8b 888          
+888   o   888 Y8P                   888    Y8P 888          
+888  d8b  888                       888        888          
+888 d888b 888 888 88888b.  888  888 888888 888 888 .d8888b  
+888d88888b888 888 888 "88b 888  888 888    888 888 88K      
+88888P Y88888 888 888  888 888  888 888    888 888 "Y8888b. 
+8888P   Y8888 888 888  888 Y88b 888 Y88b.  888 888      X88 
+888P     Y888 888 888  888  "Y88888  "Y888 888 888  88888P'\n
+'''+ bcolors.NORMAL
+
 def main():
+	info()
 	w_utils = Utils()
 	w_packages = MainApp()
 	parser = argparse.ArgumentParser()
@@ -187,7 +220,20 @@ def main():
 	parser.add_argument('--list-apps', help='Lista os aplicativos configurados.', action='store_true', dest='list_apps', default=False)
 	'''
 	if len(sys.argv) < 2:
-		exit(parser.print_help())
+		usage = bcolors.YELLOW + '''
+usage: winutils.py [-h] [--disc-usage] [--enable-dism] [--clean-apps]
+                   [--list-apps]
+
+optional arguments:
+  -h, --help     show this help message and exit
+  --disc-usage   Verifica e corrige os possiveis erros que causam 100 uso do
+                 disco.
+  --enable-dism  Habilita o DISM para procurar por possiveis erros no HD
+  --clean-apps   Limpa TODOS os aplicativos que vem por padrao no Windows 10,
+                 use --list-apps para listar os aplicativos.
+  --list-apps    Lista os aplicativos a serem processados.''' + bcolors.NORMAL
+  		print usage
+
 
 	args=parser.parse_args()
 	disc_usage = args.disc
@@ -212,7 +258,6 @@ def main():
 	if not disc_usage:
 		if enable_dism is True:
 			print '[*] Esta opcao deve ser atribuida junto com --disc-usage.'
-
 
 main()
 	

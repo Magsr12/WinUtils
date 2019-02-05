@@ -187,8 +187,7 @@ def main():
 	parser.add_argument('--list-apps', help='Lista os aplicativos configurados.', action='store_true', dest='list_apps', default=False)
 	'''
 	if len(sys.argv) < 2:
-		w_utils.clean_temp()
-		#exit(parser.print_help())
+		exit(parser.print_help())
 
 	args=parser.parse_args()
 	disc_usage = args.disc

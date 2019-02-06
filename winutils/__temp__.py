@@ -14,9 +14,11 @@ def list_temp():
 		if os.path.isfile(temp_dir + x):
 			print '[*] Removido: ' + x
 			files.append(x)
+			time.sleep(0.09)
 		elif os.path.isdir(temp_dir + x):
-			print '[*] Removendo: ' + x
+			print '[*] Removido: ' + x
 			dirs.append(x)
+			time.sleep(0.09)
 	if len(files) == 0 and len(dirs) == 0:
 		pass
 	else:
@@ -24,4 +26,3 @@ def list_temp():
 			os.remove(temp_dir + f)
 		for d in dirs:
 			shutil.rmtree(temp_dir + d)
-

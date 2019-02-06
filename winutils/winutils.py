@@ -83,7 +83,7 @@ class Utils:
 		time.sleep(1)
 		for i in self.app_list:
 			print '[*] Encontrado: {}'.format(i)
-			time.sleep(0.3)
+			time.sleep(0.08)
 		print '[*] Carregando Powershell...'
 		for app in self.app_list:
 			try:
@@ -99,11 +99,11 @@ class Utils:
 	def windows_defender(self, func='disable'):
 		if func == 'enable':
 			print '[*] Habilitando Windows Defender...'
-			os.system('start Turn_On_Windows_Defender_Antivirus.reg')
+			os.system('start misc/Turn_On_Windows_Defender_Antivirus.reg')
 			print '[*] Windows Defender habilitado.'
 		elif func == 'disable':
 			print '[*] Desabilitando Windows Defender...'
-			os.system('start Turn_Off_Windows_Defender_Antivirus.reg')
+			os.system('start misc/Turn_Off_Windows_Defender_Antivirus.reg')
 			print '[*] Windows defender desabilitado.'
 		
 	def disc_usage(self, dism_=False):

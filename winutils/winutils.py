@@ -263,7 +263,8 @@ optional arguments:
 			w_utils.disc_usage(dism_=False)
 	if not disc_usage:
 		if enable_dism is True:
-			print '[*] Esta opcao deve ser atribuida junto com --disc-usage.'
+			print '[*] A opcao --enable-dism deve ser atribuida junto com --disc-usage.'
+			exit()
 
 main()
 list_temp() # Function in temp.py to clean %TEMP%

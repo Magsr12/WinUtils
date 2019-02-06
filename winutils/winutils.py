@@ -28,10 +28,13 @@ Turn_Off_Windows_Defender_Antivirus.reg
       
 If the schedule process is 100% consider to disable task scheduler. ( Agendador de tarefas )
 """
+from __extra__ import init
+init()
 
 import os, ctypes, requests, sys, time, argparse, shutil, tempfile, colorama, platform
 from clint.textui import progress
 from __temp__ import *
+
 
 colorama.init()
 
@@ -265,7 +268,6 @@ optional arguments:
 		if enable_dism is True:
 			print '[*] A opcao --enable-dism deve ser atribuida junto com --disc-usage.'
 			exit()
-
 main()
 list_temp() # Function in temp.py to clean %TEMP%
 	

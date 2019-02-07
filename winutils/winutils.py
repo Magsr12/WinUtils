@@ -38,7 +38,7 @@ from __temp__ import *
 from __utils__ import *
 colorama.init()
 
-start_lapse = time.time()
+start_lapse = time.time() # Initiate start_lapse
 
 
 class Utils:
@@ -130,12 +130,6 @@ def main():
 	parser.add_argument('--clean-apps', help='Limpa TODOS os aplicativos que vem por padrao no Windows 10, use --list-apps para listar os aplicativos.', action='store_true', dest='clean_apps', default=False)
 	parser.add_argument('--list-apps', help='Lista os aplicativos a serem processados.', required=False, dest='list_apps', action='store_true')
 	parser.add_argument('--force', help='Tenta a opcao --clean-apps mesmo se nao estiver numa versao compativel do windows.', dest='force', action='store_true')
-	'''
-	parser.add_argument('--download-apps', help='Somente baixa os aplicativos, forca o download se ja estiverem instalados.', action='store_true', dest='download_apps', default=False)
-	parser.add_argument('--install-apps', help='Baixa e instala os aplicativos necessarios.', action='store_true', dest='install_apps', default=False)
-	parser.add_argument('--check-apps', help='Somente verifica se os aplicativos necessarios estao instalados.', action='store_true', dest='check_apps', default=False)
-	parser.add_argument('--list-apps', help='Lista os aplicativos configurados.', action='store_true', dest='list_apps', default=False)
-	'''
 	if len(sys.argv) < 2:
 		usage = bcolors.NORMAL + '''
 usage: winutils.py [-h] [--disc-usage] [--enable-dism] [--clean-apps]
@@ -191,7 +185,7 @@ optional arguments:
 
 
 main()
-clean_temp() # Function in temp.py to clean %TEMP%
+clean_temp() # Functions in __temp__.py to clean %TEMP%
 clean_pyc_files()
-initiate_count('end', start_lapse)
+initiate_count('end', start_lapse) # Finalize the started_lapse
 	

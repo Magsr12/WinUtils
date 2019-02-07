@@ -2,9 +2,6 @@
 #Clean temp files and .pyc compiled files.
 
 import os, shutil, time
-import sys
-
-sys.dont_write_bytecode = True
 
 temp_dir = os.getenv('temp') + '/'
 files = []
@@ -30,5 +27,7 @@ def list_temp():
 			os.remove(temp_dir + f)
 		for d in dirs:
 			shutil.rmtree(temp_dir + d)
+def clean_pyc_files():
 	os.system('del *.pyc')
+	
 

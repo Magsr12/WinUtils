@@ -191,4 +191,5 @@ optional arguments:
 main()
 list_temp() # Function in temp.py to clean %TEMP%
 initiate_count('end')
+clean_pyc_files()
 	

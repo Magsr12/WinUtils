@@ -29,6 +29,7 @@ If the schedule process is 100% consider to disable task scheduler. ( Agendador 
 '''
 
 import argparse
+import sys
 
 from __extra__ import init
 init()
@@ -36,6 +37,8 @@ init()
 from __temp__ import *
 from __utils__ import *
 colorama.init()
+
+start_lapse = time.time()
 
 
 class Utils:
@@ -79,7 +82,7 @@ class Utils:
 		time.sleep(2.2)
 		for i in self.app_list:
 			print '[*] Enumerando: {}'.format(i) # Enumerate all apps in self.app_list
-			time.sleep(0.08)
+			time.sleep(0.05)
 		print '[*] Carregando Powershell...'
 		for app in self.app_list:
 			try:
@@ -89,9 +92,8 @@ class Utils:
 				else:
 					print "[*] Removendo {}".format(app)
 			except KeyboardInterrupt:
-				print '[*] Cancelando...'
-				time.sleep(0.9)
-				exit()
+				print '[*] Pulando esta etapa...'; time.sleep(0.8)
+				break
 
 	def windows_defender(self, func='disable'):
 		if func == 'enable':
@@ -189,7 +191,7 @@ optional arguments:
 
 
 main()
-list_temp() # Function in temp.py to clean %TEMP%
-initiate_count('end')
+clean_temp() # Function in temp.py to clean %TEMP%
 clean_pyc_files()
+initiate_count('end', start_lapse)
 	

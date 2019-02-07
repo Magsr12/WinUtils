@@ -4,9 +4,9 @@ import colorama
 import platform
 import datetime
 import ctypes
-import sys
+import time
 
-sys.dont_write_bytecode = True
+
 
 class bcolors:
 	BOLD = '\033[1m'
@@ -45,11 +45,16 @@ def info():
 	print _yellow_ + '[*] ' + platform.system() + ' ' + platform.version() + ' ' + platform_machine_bits
 	print '[*] Admin privileges: ' + admin_is + _normal_ + '\n'
 
-def initiate_count(mode):
-	now = datetime.datetime.now()
-	hour = str(now.hour) + ':' + str(now.minute) + ':' + str(now.second)
+def initiate_count(mode, start_lapse=False): # Time count func
+	now = []
+	now.append(datetime.datetime.now())
+	init_hour = str(now[0])[11:19]
 	if mode == 'start':		
-		print _yellow_ + '[*] Iniciando em: {}\n'.format(hour) + _normal_
+		print _yellow_ + '[*] Iniciando em: {}\n'.format(init_hour) + _normal_	
 	if mode == 'end':
-		print _yellow_ + '\n[*] Finalizado em: {}'.format(hour) + _normal_
+		end_lapse = time.time()
+		elapsed = end_lapse - start_lapse
+		print _yellow_ + '\n[*] Finalizado em {} segundos.'.format(int(elapsed)) + _normal_
+
+
 

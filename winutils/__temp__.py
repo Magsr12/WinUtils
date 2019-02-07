@@ -7,7 +7,7 @@ temp_dir = os.getenv('temp') + '/'
 files = []
 dirs = []
 
-def list_temp():
+def clean_temp():
 	print '[*] Procurando por arquivos temporarios...'
 	time.sleep(0.9)
 	temp_dir = os.getenv('temp') + '/'
@@ -27,6 +27,7 @@ def list_temp():
 			os.remove(temp_dir + f)
 		for d in dirs:
 			shutil.rmtree(temp_dir + d)
+		print '[*] {} arquivos temporarios apagados.'.format(len(files) + len(dirs))
 def clean_pyc_files():
 	os.system('del *.pyc')
 	

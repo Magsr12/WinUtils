@@ -1,5 +1,5 @@
 #coding: utf-8
-#Interative texts language: PT-BR
+#Interative language: PT-BR
 
 '''
 WHAT IT DO:

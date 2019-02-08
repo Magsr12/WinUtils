@@ -8,9 +8,8 @@ Windows 10 bug fixes, 100% disc usage, clean apps and solve most problems
   --clean-apps   Limpa TODOS os aplicativos que vem por padrao no Windows 10,
                  use --list-apps para listar os aplicativos.
   --list-apps    Lista os aplicativos a serem processados.
-  --force        Tenta os argumentos mencionados mesmo se nao estiver numa versao
-                 compativel do windows.
-  
+  --force        Força o aplicativo a rodar os seguintes argumentos mesmo se 
+                 não compativel.
   ```
   
   

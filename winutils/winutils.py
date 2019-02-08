@@ -52,6 +52,7 @@ class Utils:
 	def services_(self):		
         	print "[*] Desativando servico SysMain para otimizacao de disc_usage..."
         	sysmain_cmd = os.system('sc config sysmain start= disabled > NUL') # Disable superfetch
+        	time.sleep(1.3)
         	if sysmain_cmd != 0:
                 	print "[*] Nao foi possivel desativar o servico SysMain (superfetch)"
         	else:
@@ -59,18 +60,21 @@ class Utils:
 
         	print "[*] Desativando TrustedInstaller ( Instalador de Modulos )..."
         	trus_cmd = os.system('sc config TrustedInstaller start= demand > NUL') # Set TrustedInstaller to manual
+        	time.sleep(1.3)
         	if trus_cmd != 0:
                 	print "[*] Nao foi possivel desativar o servico TrustedInstaller (Instalador de modulos)"
         	else:
                 	print "[*] Servico TrustedInstaller (Instalador de modulos) desabilitado"
         	
         	wua_serv = os.system('sc config wuauserv start= demand > NUL') # Set wuauserv to manual
+        	time.sleep(1.3)
         	if wua_serv != 0:
                 	print "[*] Nao foi possivel desativar o servico wuauserv (Windows Update)"
         	else:
                 	print "[*] Servico wuauserv (Windows Update) desativado"
         	
         	msi_serv = os.system('sc config msiserver start= demand > NUL') # Set msiserver to manual
+        	time.sleep(1.3)
         	if msi_serv != 0:
                 	print "[*] Nao foi possivel desativar o servico msiserver (Windows Installer)"
         	else:
@@ -98,12 +102,18 @@ class Utils:
 	def windows_defender(self, func='disable'):
 		if func == 'enable':
 			print '[*] Habilitando Windows Defender...'
-			os.system('start misc/Turn_On_Windows_Defender_Antivirus.reg') # AUTO ENABLE WINDOWS DEFENDER
-			print '[*] Windows Defender habilitado.'
+			run = os.system('start misc/Turn_On_Windows_Defender_Antivirus.reg') # AUTO ENABLE WINDOWS DEFENDER
+			if run == 1:
+				print '[*] Nao foi possivel habilitar o Windows Defender.'
+			else:
+				print '[*] Windows Defender habilitado.'
 		elif func == 'disable':
 			print '[*] Desabilitando Windows Defender...'
-			os.system('start misc/Turn_Off_Windows_Defender_Antivirus.reg') # AUTO DISABLE WINDOWS DEFENDER
-			print '[*] Windows defender desabilitado.'
+			run = os.system('start misc/Turn_Off_Windows_Defender_Antivirus.reg') # AUTO DISABLE WINDOWS DEFENDER
+			if run == 1:
+				print '[*] Nao foi possivel desabilitar o Windows Defender.'
+			else:
+				print '[*] Windows defender desabilitado.'
 		
 	def disc_usage(self, dism_=False):
 		if dism_:
@@ -170,8 +180,10 @@ optional arguments:
 	if disc_usage:
 		is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0 # Check if the user is Admin
 		if is_admin is False:
-			exit('\n[*] Nao foi possivel prosseguir com a correcao de disco, esta opcao requer privilegios.\n\nIS_ADMIN: {}'.format(is_admin))
-		initiate_count('start')
+			if force:
+				pass
+			else:
+				exit('\n[*] Nao foi possivel prosseguir com a correcao de disco, esta opcao requer privilegios.\n\nIS_ADMIN: {}'.format(is_admin))
 		w_utils.services_()
 		w_utils.windows_defender()
 		if enable_dism:

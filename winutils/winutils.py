@@ -1,6 +1,4 @@
 #coding: utf-8
-#Interative language: PT-BR
-
 '''
 WHAT IT DO:
 

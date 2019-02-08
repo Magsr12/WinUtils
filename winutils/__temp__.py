@@ -24,7 +24,10 @@ def clean_temp():
 		pass
 	else:
 		for f in files:
-			os.remove(temp_dir + f)
+			try:
+				os.remove(temp_dir + f)
+			except WindowsError:
+				print '[*] {} esta sendo usado por outro processo.'
 		for d in dirs:
 			shutil.rmtree(temp_dir + d)
 		print '[*] {} arquivos temporarios apagados.'.format(len(files) + len(dirs))

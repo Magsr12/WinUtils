@@ -1,3 +1,0 @@
-add Exception at clean_temp() in __temp__.py:
-os.remove(temp_dir + f)
-WindowsError[Error 32]: file is using by another process

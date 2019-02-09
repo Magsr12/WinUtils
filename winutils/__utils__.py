@@ -11,13 +11,19 @@ class bcolors:
 	CYAN = '\033[36m'
 	NORMAL = '\033[37m'
 	YELLOW = '\033[33m'
+	RED = '\033[30m'
+	GREEN = '\033[32m'
 
 def info():
 	global _yellow_
 	global _cyan_
+	global _red_
+	global _green_
 	global _normal_
 	_yellow_ = bcolors.BOLD + bcolors.YELLOW
 	_cyan_ = bcolors.BOLD + bcolors.CYAN
+	_red_ = bcolors.BOLD + bcolors.RED
+	_green_ = bcolors.BOLD + bcolors.GREEN
 	_normal_ = bcolors.NORMAL
 
 	admin_is = ctypes.windll.shell32.IsUserAnAdmin()

@@ -2,6 +2,7 @@ import os
 import time
 
 
+
 class Utils:
 	def __init__(self):
 		self.app_list = ['3dbuilder', 'windowsalarms', 'windowscommunicationsapps', 'windowscamera'
@@ -11,7 +12,7 @@ class Utils:
 		self.services = ['SysMain', 'TrustedInstaller', 'wuauserv', 'msiserver']
 
 	def services_(self):		
-        	print "[*] Desativando servico SysMain para otimizacao de disc_usage..."
+        	print "[*] Desativando servico SysMain para otimizacao de disk_usage..."
         	sysmain_cmd = os.system('sc config sysmain start= disabled > NUL') # Disable superfetch
         	time.sleep(1.3)
         	if sysmain_cmd != 0:
@@ -76,7 +77,7 @@ class Utils:
 			else:
 				print '[*] Windows defender desabilitado.'
 		
-	def disc_usage(self, dism_=False):
+	def disk_usage(self, dism_=False):
 		if dism_:
 			os.system('Dism /Online /Cleanup-Image /ScanHealth')
 			os.system('Dism /Online /Cleanup-Image /RestoreHealth')

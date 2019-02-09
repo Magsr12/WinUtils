@@ -17,20 +17,20 @@ def main():
 	info()
 	w_utils = Utils()
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--disc-usage', help='Verifica e corrige os possiveis erros que causam 100 uso do disco.', action='store_true', dest='disc', default=False)
+	parser.add_argument('--disk-usage', help='Verifica e corrige os possiveis erros que causam 100 uso do disco.', action='store_true', dest='disk', default=False)
 	parser.add_argument('--enable-dism', help='Habilita o DISM para procurar por possiveis erros no HD', action='store_true', dest='dism_', default=False)
 	parser.add_argument('--clean-apps', help='Limpa TODOS os aplicativos que vem por padrao no Windows 10, use --list-apps para listar os aplicativos.', action='store_true', dest='clean_apps', default=False)
 	parser.add_argument('--list-apps', help='Lista os aplicativos a serem processados.', required=False, dest='list_apps', action='store_true')
 	parser.add_argument('--force', help='Tenta a opcao --clean-apps mesmo se nao estiver numa versao compativel do windows.', dest='force', action='store_true')
 	if len(sys.argv) < 2:
 		usage = '''
-usage: winutils.py [-h] [--disc-usage] [--enable-dism] [--clean-apps]
+usage: winutils.py [-h] [--disk-usage] [--enable-dism] [--clean-apps]
                    [--list-apps]
 
 optional arguments:
   -h, --help     show this help message and exit
-  --disc-usage   Verifica e corrige os possiveis erros que causam 100 uso do
-                 disco.
+  --disk-usage   Verifica e corrige os possiveis erros que causam 100 uso do
+                 disko.
   --enable-dism  Habilita o DISM para procurar por possiveis erros no HD
   --clean-apps   Limpa TODOS os aplicativos que vem por padrao no Windows 10,
                  use --list-apps para listar os aplicativos.
@@ -39,7 +39,7 @@ optional arguments:
 
 
 	args=parser.parse_args()
-	disc_usage = args.disc
+	disk_usage = args.disk
 	enable_dism = args.dism_
 	clean_apps_ = args.clean_apps
 	list_apps = args.list_apps
@@ -59,22 +59,22 @@ optional arguments:
 		else:
 			initiate_count('start')
 			w_utils.apps()
-	if disc_usage:
+	if disk_usage:
 		is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0 # Check if the user is Admin
 		if is_admin is False:
 			if force:
 				pass
 			else:
-				exit('\n[*] Nao foi possivel prosseguir com a correcao de disco, esta opcao requer privilegios.\n\nIS_ADMIN: {}'.format(is_admin))
+				exit('\n[*] Nao foi possivel prosseguir com a correcao de disko, esta opcao requer privilegios.\n\nIS_ADMIN: {}'.format(is_admin))
 		w_utils.services_()
 		w_utils.windows_defender()
 		if enable_dism:
-			w_utils.disc_usage(dism_=True)
+			w_utils.disk_usage(dism_=True)
 		else:
-			w_utils.disc_usage(dism_=False)
-	if not disc_usage:
+			w_utils.disk_usage(dism_=False)
+	if not disk_usage:
 		if enable_dism is True:
-			print '[*] A opcao --enable-dism deve ser atribuida junto com --disc-usage.'
+			print '[*] A opcao --enable-dism deve ser atribuida junto com --disk-usage.'
 			exit()
 
 

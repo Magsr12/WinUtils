@@ -14,5 +14,5 @@ clint \
 
 ctypes ( Installed by default ) \
 
-colorama
+colorama \
 

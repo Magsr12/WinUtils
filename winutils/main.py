@@ -1,7 +1,6 @@
 import os
 import time
-
-
+from __colors__ import *
 
 class Utils:
 	def __init__(self):
@@ -16,29 +15,29 @@ class Utils:
         	sysmain_cmd = os.system('sc config sysmain start= disabled > NUL') # Disable superfetch
         	time.sleep(1.3)
         	if sysmain_cmd != 0:
-                	print "[*] Nao foi possivel desativar o servico SysMain (superfetch)"
+                	print RED + "[*] Nao foi possivel desativar o servico SysMain (superfetch)" + NORMAL
         	else:
                 	print "[*] Servico SysMain (superfetch) desabilitado "
 
         	print "[*] Desativando TrustedInstaller ( Instalador de Modulos )..."
-        	trus_cmd = os.system('sc config TrustedInstaller start= demand > NUL') # Set TrustedInstaller to manual
+        	trus_cmd = os.system('sc config TrustedInstaller start= disabled > NUL') # Set TrustedInstaller to manual
         	time.sleep(1.3)
         	if trus_cmd != 0:
-                	print "[*] Nao foi possivel desativar o servico TrustedInstaller (Instalador de modulos)"
+                	print RED + "[*] Nao foi possivel desativar o servico TrustedInstaller (Instalador de modulos)" + NORMAL
         	else:
                 	print "[*] Servico TrustedInstaller (Instalador de modulos) desabilitado"
-        	
+        	print "[*] Desativando wuauserv (Windows Update)..."
         	wua_serv = os.system('sc config wuauserv start= demand > NUL') # Set wuauserv to manual
         	time.sleep(1.3)
         	if wua_serv != 0:
-                	print "[*] Nao foi possivel desativar o servico wuauserv (Windows Update)"
+                	print RED + "[*] Nao foi possivel desativar o servico wuauserv (Windows Update)" + NORMAL
         	else:
                 	print "[*] Servico wuauserv (Windows Update) desativado"
         	
         	msi_serv = os.system('sc config msiserver start= demand > NUL') # Set msiserver to manual
         	time.sleep(1.3)
         	if msi_serv != 0:
-                	print "[*] Nao foi possivel desativar o servico msiserver (Windows Installer)"
+                	print RED + "[*] Nao foi possivel desativar o servico msiserver (Windows Installer)" + NORMAL
         	else:
                 	print "[*] Servico msiserver (Windows Installer) desativado"
         	
@@ -54,7 +53,7 @@ class Utils:
 			try:
 				apps_command = os.system('powershell "Get-AppxPackage *{}* | Remove-AppxPackage"'.format(app)) # Use this command to uninstall the apps
 				if apps_command == 1:
-					print "[*] Nao foi possivel desinstalar {}".format(app)
+					print RED + "[*] Nao foi possivel desinstalar {}".format(app) + NORMAL
 				else:
 					print "[*] Removendo {}".format(app)
 			except KeyboardInterrupt:
@@ -66,14 +65,14 @@ class Utils:
 			print '[*] Habilitando Windows Defender...'
 			run = os.system('start misc/Turn_On_Windows_Defender_Antivirus.reg') # AUTO ENABLE WINDOWS DEFENDER
 			if run == 1:
-				print '[*] Nao foi possivel habilitar o Windows Defender.'
+				print RED + '[*] Nao foi possivel habilitar o Windows Defender.' + NORMAL
 			else:
 				print '[*] Windows Defender habilitado.'
 		elif func == 'disable':
 			print '[*] Desabilitando Windows Defender...'
 			run = os.system('start misc/Turn_Off_Windows_Defender_Antivirus.reg') # AUTO DISABLE WINDOWS DEFENDER
 			if run == 1:
-				print '[*] Nao foi possivel desabilitar o Windows Defender.'
+				print RED + '[*] Nao foi possivel desabilitar o Windows Defender.' + NORMAL
 			else:
 				print '[*] Windows defender desabilitado.'
 		
@@ -89,7 +88,7 @@ class Utils:
 		for s in self.services: # CHECK IF THE SERVICES HAS STOPPED
 			os.system('sc query {} | findstr  /i NOME_DO'.format(s))
 			os.system('sc query {} | findstr  /i ESTADO'.format(s))
-		print '\nFLAGS = STOPPED, RUNNING'
+
+		print 'FLAGS = STOPPED, RUNNING'
 		print '\n[*] Caso haja algum servico em RUNNING, recomenda-se reiniciar o procedimento.'
-		print '[*] Finalizado.'
 

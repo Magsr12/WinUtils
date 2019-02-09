@@ -6,8 +6,6 @@ import datetime
 import ctypes
 import time
 
-
-
 class bcolors:
 	BOLD = '\033[1m'
 	CYAN = '\033[36m'

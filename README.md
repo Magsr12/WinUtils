@@ -10,7 +10,9 @@
 
 ### PIP requirements: ###
 
-clint
-ctypes ( Installed by default )
+clint \
+
+ctypes ( Installed by default ) \
+
 colorama
 

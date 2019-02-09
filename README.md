@@ -8,7 +8,7 @@
   --list-apps    Lists the applications to be processed.
 ```
 
-### PIP requirements: 
+### PIP requirements: ###
 
 clint
 ctypes ( Installed by default )

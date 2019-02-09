@@ -23,7 +23,7 @@ def main():
 	parser.add_argument('--list-apps', help='Lista os aplicativos a serem processados.', required=False, dest='list_apps', action='store_true')
 	parser.add_argument('--force', help='Tenta a opcao --clean-apps mesmo se nao estiver numa versao compativel do windows.', dest='force', action='store_true')
 	if len(sys.argv) < 2:
-		usage = bcolors.NORMAL + '''
+		usage = '''
 usage: winutils.py [-h] [--disc-usage] [--enable-dism] [--clean-apps]
                    [--list-apps]
 
@@ -34,7 +34,7 @@ optional arguments:
   --enable-dism  Habilita o DISM para procurar por possiveis erros no HD
   --clean-apps   Limpa TODOS os aplicativos que vem por padrao no Windows 10,
                  use --list-apps para listar os aplicativos.
-  --list-apps    Lista os aplicativos a serem processados.''' + bcolors.NORMAL
+  --list-apps    Lista os aplicativos a serem processados.'''
   		exit(usage)
 
 

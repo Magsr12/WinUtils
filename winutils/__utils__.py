@@ -40,7 +40,7 @@ def info():
 8888P   Y8888 888 888  888 Y88b 888 Y88b.  888 888      X88 
 888P     Y888 888 888  888  "Y88888  "Y888 888 888  88888P'
 ''' + _cyan_
-	print _yellow_ + '[*] ' + platform.system() + ' ' + platform.version() + ' ' + platform_machine_bits
+	print _yellow_ + '[*] ' + platform.platform() + ' ' + platform_machine_bits
 	print '[*] Admin privileges: ' + admin_is + _normal_ + '\n'
 
 def initiate_count(mode, start_lapse=False): # Time count func

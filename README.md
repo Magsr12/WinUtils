@@ -8,10 +8,6 @@
   --list-apps    Lists the applications to be processed.
 ```
 
-### WHAT IT DO: ###
-
-Fix 100% disc usage in Windows and remove most packages
-
 Requirements:
 
 clint

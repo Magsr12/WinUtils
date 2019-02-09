@@ -8,10 +8,7 @@
   --list-apps    Lists the applications to be processed.
 ```
 
-
-[EN/US]
-
-### [EN/US] WHAT IT DO:
+### WHAT IT DO:
 
 [DISABLE SERVICES]
 
